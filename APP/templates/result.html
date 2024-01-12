@@ -1,0 +1,33 @@
+<!-- templates/result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Identification Result</title>
+</head>
+<body>
+    <div class="container" id="result-container">
+        <h1>Identification Result</h1>
+        <p id="user-input">User Input: {{ user_input }}</p>
+        <p id="result">Result: {{ result }}</p>
+        <a href="{{ url_for('index') }}" class="back-link">Go back</a>
+    </div>
+
+    <!-- Include anime.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <script>
+        // Fade-in animation for the result container when the page loads
+        anime({
+            targets: "#result-container",
+            opacity: [0, 1],
+            duration: 800,
+            easing: 'easeInOutQuad',
+            delay: 300
+        });
+    </script>
+</body>
+</html>
