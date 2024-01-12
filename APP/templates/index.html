@@ -1,0 +1,79 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Object Identification</title>
+</head>
+<body>
+    <div class="container" id="form-container">
+        <h1>Object Identification</h1>
+        <form action="{{ url_for('result') }}" method="post" onsubmit="return validateForm()">
+            <label for="user_input">Enter Array of Floats (comma-separated):</label>
+            <input type="text" id="user_input" name="user_input" required>
+            <span id="error-message" class="error-message"></span>
+            <button type="submit">Identify</button>
+        </form>
+    </div>
+
+    <!-- Include anime.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <script>
+        // Function to handle form validation
+        function validateForm() {
+            var userInput = document.getElementById("user_input").value.trim();
+            var floatArrayPattern = /^(\d+(\.\d+)?,)+\d+(\.\d+)?$/;
+
+            if (!floatArrayPattern.test(userInput)) {
+                animateError();
+                return false;
+            } else {
+                document.getElementById("error-message").innerText = "";
+                return true;
+            }
+        }
+
+        // Function to animate the form when an error occurs
+        function animateError() {
+            var formContainer = document.getElementById("form-container");
+
+            // Shake animation using anime.js
+            anime({
+                targets: formContainer,
+                translateX: [
+                    { value: -5, duration: 100 },
+                    { value: 5, duration: 100 },
+                    { value: -5, duration: 100 },
+                    { value: 5, duration: 100 },
+                    { value: 0, duration: 100 }
+                ],
+                easing: 'easeInOutQuad'
+            });
+
+            // Display error message with fade-in animation
+            var errorMessage = document.getElementById("error-message");
+            errorMessage.innerText = "Invalid input. Please enter a valid array of floats.";
+            anime({
+                targets: errorMessage,
+                opacity: [0, 1],
+                duration: 400,
+                easing: 'easeInOutQuad'
+            });
+        }
+
+        // Fade-in animation for the form when the page loads
+        anime({
+            targets: "#form-container",
+            opacity: [0, 1],
+            duration: 800,
+            easing: 'easeInOutQuad',
+            delay: 300
+        });
+    </script>
+    
+</body>
+</html>
